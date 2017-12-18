@@ -1,0 +1,187 @@
+//----------------------------------------------------------------------------------------------------------
+
+
+//Code of B
+if(isset($_POST['B'])){
+
+mysql_connect("127.0.0.1","root","") or die("connection error");
+mysql_select_db("rec")or die("database error");
+$query = "select name from check";
+if(mysql_query($query)){
+$query_run=mysql_query($query);
+while($query_row=mysql_fetch_assoc($query_run)){
+$ec=$query_row['name'];
+$y="YES";
+$n="NO";
+if(strcasecmp($ec,$y)){
+header( "refresh:1;url=WinPage1.php" );
+}
+if(strcasecmp($ec,$n)){
+header( "refresh:1;url=LosePage1.php" );
+}
+
+
+}}
+mysql_close();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+$pass="__";
+$len = file_get_contents('word.txt');
+$l=strlen($len);
+
+$fp1 = fopen('empty.txt', 'r');
+if (!$fp1) {
+    echo 'Could not open file somefile.txt';
+}
+
+$fp = fopen('word.txt', 'r');
+if (!$fp) {
+    echo 'Could not open file somefile.txt';
+}
+
+for($i=0;$i<=$l-1;$i++){
+$wo[$i]= fgetc($fp1);
+}
+
+$v=0;
+
+$B = file_get_contents('B.txt');
+if($B==0){
+for($i=0;$i<=$l-1;$i++){
+$counter=0;
+$char = fgetc($fp);
+if(strcasecmp($_POST['B'],$char)==false){   
+$wo[$i]=$char;
+$counter=$counter+1;
+$con = file_get_contents('correct.txt');
+echo "con".$con;
+echo "counter".$counter;
+$vo=$con-$counter;
+//correct subtracting words
+$myfile = fopen("correct.txt", "w") or die("Unable to open file!");
+fwrite($myfile, $vo);
+fclose($myfile);
+//B writing 1
+$myfile = fopen("B.txt", "w") or die("Unable to open file!");
+fwrite($myfile, 1);
+fclose($myfile);
+echo 1;
+
+if($vo==0){
+mysql_connect("192.168.1.6","root","password") or die("connection error");
+mysql_select_db("rec")or die("database error");
+$val="YES";
+$query="insert into check  values('$val')";
+if(mysql_query($query)){
+//echo "done";
+}
+mysql_close();
+header( "refresh:1;url=Winpage.php" );
+}
+
+
+$v=$char;
+}
+}
+}
+
+
+
+$B = file_get_contents('B.txt');
+if($B==0){
+
+if(empty($v)==true){
+
+$h = file_get_contents('hangman.txt');
+echo $h;
+$h=$h+1;
+echo $h;
+//Hangman file
+$myfile = fopen("hangman.txt", "w") or die("Unable to open file!");
+fwrite($myfile, $h);
+fclose($myfile);
+//B writing 1
+$myfile = fopen("B.txt", "w") or die("Unable to open file!");
+fwrite($myfile, 1);
+fclose($myfile);
+echo 1;
+
+$h=$h.".";
+$h=$h."png";
+echo "
+<center><img  style=margin-top:-10px; src=$h /></center>";
+
+if($h==7){
+mysql_connect("192.168.1.6","root","password") or die("connection error");
+mysql_select_db("rec")or die("database error");
+$val="NO";
+$query="insert into check  values('$val')";
+if(mysql_query($query)){
+//echo "done";
+}
+mysql_close();
+
+
+
+
+
+header( "refresh:1;url=Losepage.php" );
+}
+
+
+
+}}
+
+else{
+
+$h = file_get_contents('hangman.txt');
+echo $h;
+
+//Hangman file
+$h=$h.".";
+$h=$h."png";
+echo "
+<center><img  style=margin-top:-10px; src=$h /></center>";
+}
+
+
+
+
+
+
+
+$myTextFileHandler = @fopen("empty.txt","r+");
+@ftruncate($myTextFileHandler, 0);
+
+
+
+
+for($i=0;$i<=$l-1;$i++){
+//File Creation:
+$myfile = fopen("empty.txt", "a") or die("Unable to open file!");
+fwrite($myfile, $wo[$i]);
+fclose($myfile);
+}
+
+
+echo "<p  style='text-align:center;font-size:50px;margin-top:-0px;'>";
+for($i=0;$i<=$l-1;$i++){
+echo $wo[$i]."&nbsp;&nbsp;&nbsp;&nbsp;";
+}
+echo "</p>";
+
+}

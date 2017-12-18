@@ -1,0 +1,16 @@
+$conn =  mysql_connect("localhost","root","");
+if(! $conn )
+{
+  die('Could not connect: ' . mysql_error());
+}
+echo 'Connected successfully<br />';
+$sql = "CREATE TABLE check(name VARCHAR(100))";
+       
+mysql_select_db( 'rec' );
+$retval = mysql_query( $sql, $conn );
+if(! $retval )
+{
+  die('Could not create table: ' . mysql_error());
+}
+echo "Table created successfully\n";
+mysql_close($conn);

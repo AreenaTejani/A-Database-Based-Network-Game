@@ -1,0 +1,93 @@
+
+
+
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '' WITH GRANT OPTION;
+
+
+
+
+
+mysql_connect("192.168.1.6","root","password") or die("connection error");
+mysql_select_db("rec")or die("database error");
+$query = "select name from reccomended";
+if(mysql_query($query)){
+$query-run=mysql_query($query);
+echo "successful";
+while($query_row=mysql_fetch_assoc($query_run)){
+$ec=$query_row['name'];
+}
+if(empty($ec)){
+header( "refresh:1;url=Sixthpage.php" );
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function disableElements()
+{
+document.getElementById("email").disabled=false;
+document.getElementById("pwd").disabled=true;
+document.getElementById("check1").disabled=true;
+}
+</script>
+</head>
+<body>
+
+<form>
+Email: <input type="text" id="email"><br>
+Password: <input type="password" id="pwd"><br>
+<input type="checkbox" id="check1">Do you like summer?
+</form>
+
+<button onclick="disableElements()">Disable fields</button>
+
+</body>
+</html>
+mysql_close();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+function changeImage()
+{
+  var x = Document.getElementsById(image0);
+  var v = x.getAttribute("src");
+  if(v == "1.png"){
+    v = "Untitled.png");
+  }
+  x.setAttribute("src", v);	
+}
+</script>
+
+
+<body   onload="changeImage();">
+<img id="image0" src="1.png"  />
+</body> 
